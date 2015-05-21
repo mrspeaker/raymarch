@@ -68,7 +68,7 @@
       vec3 right = cross(up, forward);
 
       vec3 ray_dir = normalize(up * uv.y + right * uv.x + forward);
-      float d = raymarch(vec3(0, 0, -5.), ray_dir);
+      float d = raymarch(vec3(0, sin(t * 0.0008) * 0.8, -5. + (t * 0.0008)), ray_dir);
 
       if (d < max_distance) {
         float fog = 1.0 / (d / max_distance / 0.15);
