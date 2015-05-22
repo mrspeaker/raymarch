@@ -13,9 +13,9 @@
 <body>
   <canvas id="board"></canvas>
   <script type="text/frag-shader" id="frag">
-    #define max_distance 50.0
-    #define epsilon 0.001
-    #define max_steps 100
+    #define max_distance 60.0
+    #define epsilon 0.005
+    #define max_steps 150
     #define FOV 20.0
 
     precision mediump float;
@@ -27,7 +27,7 @@
     }
 
     float floor_obj(vec3 p) {
-      return p.y + 6.0;
+      return p.y + 5.0;
     }
 
     float sphere(vec3 p, float s){
@@ -98,13 +98,13 @@
       vec3 point_normal = get_normal(point);
       vec3 light = eye + vec3(
         sin(time / 1.0) * 55.0,
-        0,//cos(time  / 3.0) * 44.0,
+        cos(time  / 3.0) * 44.0,
         0);
       vec3 light_dir = -normalize(light - point);
       float dotp_diffuse = max(0.0, dot(light_dir, point_normal)) * 0.8;
 
       if (d < max_distance) {
-        float fog = 1.0 / (d / max_distance / 0.15);
+        float fog = 1.0 / (d / max_distance / 0.1);
         gl_FragColor = vec4(0.3, 0.6, 0.6, 1.0) * dotp_diffuse * fog;
       } else {
         float r = length(rand(uv));
@@ -179,7 +179,7 @@
     function loop (t) {
       requestAnimationFrame(loop);
 
-      c.clearColor(0, 0, 0, 1);
+      //c.clearColor(0, 0, 0, 1);
       c.clear(c.COLOR_BUFFER_BIT);
 
       c.uniform1f(time, t);
